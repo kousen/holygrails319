@@ -57,7 +57,7 @@ dependencies {
     runtime "com.bertramlabs.plugins:asset-pipeline-grails:2.8.2"
     runtime "com.h2database:h2"
 
-//    compile project(':grails-google-visualization')
+    compile 'org.grails.plugins:grails-google-visualization:2.1.1'
 
     testCompile "org.grails:grails-plugin-testing"
     testCompile "org.grails.plugins:geb"

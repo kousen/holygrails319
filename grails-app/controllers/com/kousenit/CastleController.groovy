@@ -1,7 +1,8 @@
 package com.kousenit
 
-import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
+
+import static org.springframework.http.HttpStatus.*
 
 @Transactional(readOnly = true)
 class CastleController {
@@ -11,7 +12,14 @@ class CastleController {
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
-        respond Castle.list(params), model:[castleCount: Castle.count()]
+        respond Castle.list(params), model: [castleCount: Castle.count()]
+    }
+
+    def useplugin(Integer max) {
+        params.max = Math.min(max ?: 10, 100)
+        respond Castle.list(params), model: [castleCount: Castle.count(),
+                                             mapColumns : geocoderService.headers(),
+                                             mapData    : geocoderService.data()]
     }
 
     def show(Castle castle) {
@@ -32,12 +40,12 @@ class CastleController {
 
         if (castle.hasErrors()) {
             transactionStatus.setRollbackOnly()
-            respond castle.errors, view:'create'
+            respond castle.errors, view: 'create'
             return
         }
 
         geocoderService.fillInLatLng(castle)
-        castle.save flush:true
+        castle.save flush: true
 
         request.withFormat {
             form multipartForm {
@@ -62,19 +70,19 @@ class CastleController {
 
         if (castle.hasErrors()) {
             transactionStatus.setRollbackOnly()
-            respond castle.errors, view:'edit'
+            respond castle.errors, view: 'edit'
             return
         }
 
         geocoderService.fillInLatLng(castle)
-        castle.save flush:true
+        castle.save flush: true
 
         request.withFormat {
             form multipartForm {
                 flash.message = message(code: 'default.updated.message', args: [message(code: 'castle.label', default: 'Castle'), castle.id])
                 redirect castle
             }
-            '*'{ respond castle, [status: OK] }
+            '*' { respond castle, [status: OK] }
         }
     }
 
@@ -87,14 +95,14 @@ class CastleController {
             return
         }
 
-        castle.delete flush:true
+        castle.delete flush: true
 
         request.withFormat {
             form multipartForm {
                 flash.message = message(code: 'default.deleted.message', args: [message(code: 'castle.label', default: 'Castle'), castle.id])
-                redirect action:"index", method:"GET"
+                redirect action: "index", method: "GET"
             }
-            '*'{ render status: NO_CONTENT }
+            '*' { render status: NO_CONTENT }
         }
     }
 
@@ -104,7 +112,7 @@ class CastleController {
                 flash.message = message(code: 'default.not.found.message', args: [message(code: 'castle.label', default: 'Castle'), params.id])
                 redirect action: "index", method: "GET"
             }
-            '*'{ render status: NOT_FOUND }
+            '*' { render status: NOT_FOUND }
         }
     }
 }
