@@ -13,6 +13,8 @@ class KnightController {
         respond Knight.list(params), model:[knightCount: Knight.count()]
     }
 
+    def samplemap() {}
+
     def show(Knight knight) {
         respond knight
     }
