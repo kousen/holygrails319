@@ -46,6 +46,9 @@ environments:
                 defaultTransactionIsolation: 2 # TRANSACTION_READ_COMMITTED
 
 ---
+google:
+    maps:
+        key: AIzaSyCfjf9Il5PFGctk1DUwXK83Vdvng5M71cg
 ---
 grails:
     profile: web

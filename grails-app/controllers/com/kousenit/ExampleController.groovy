@@ -5,7 +5,9 @@ class ExampleController {
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
-        respond Castle.list(params), model: [castleCount: Castle.count()]
+        render view:'/example/samplemap', model: [
+                castleList: Castle.list(params),
+                castleCount: Castle.count()]
     }
 
     def useplugin(Integer max) {

@@ -28,7 +28,7 @@
         </g:if>
      
         <script type="text/javascript">
-            google.charts.load('current', { 'packages': ['map'] });
+            google.charts.load('45', { 'packages': ['map'] });
             google.charts.setOnLoadCallback(drawVisualization);
 
             function drawVisualization() {
